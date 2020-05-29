@@ -292,10 +292,12 @@ class MLP(nn.Module):
         return x
 
 
-def build(args):
-    num_classes = 20 if args.dataset_file != 'coco' else 91
-    if args.dataset_file == "coco_panoptic":
-        num_classes = 250
+def build(args, num_classes=None):
+    if num_classes is None:
+        num_classes = 20 if args.dataset_file != 'coco' else 91
+        if args.dataset_file == "coco_panoptic":
+            num_classes = 250
+    assert num_classes is not None
     device = torch.device(args.device)
 
     backbone = build_backbone(args)
